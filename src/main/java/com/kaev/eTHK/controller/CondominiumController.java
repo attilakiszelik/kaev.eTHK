@@ -23,4 +23,6 @@ public class CondominiumController {
 		return condominiumService.getAll();
 	}
 	
+	//test
+	
 }

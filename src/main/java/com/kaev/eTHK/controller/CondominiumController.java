@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.kaev.eTHK.dto.CondominiumDto;
+import com.kaev.eTHK.mapper.CondominiumMapper;
 import com.kaev.eTHK.model.Condominium;
 import com.kaev.eTHK.service.CondominiumService;
 
@@ -25,39 +27,47 @@ import lombok.RequiredArgsConstructor;
 public class CondominiumController {
 
 	private final CondominiumService condominiumService;
+	private final CondominiumMapper condominiumMapper;
 	
 	@GetMapping("/")
-	public List<Condominium> getCondominiums(){
+	public List<CondominiumDto> getCondominiums(){
 		
-		return condominiumService.findAll();
+		List<Condominium> condominiums = condominiumService.findAll();
+		
+		return condominiumMapper.condominiumsToDtos(condominiums);
 		
 	}
 	
 	@GetMapping("/{id}")
-	public Condominium getCondominiumByID(@PathVariable long id){
+	public CondominiumDto getCondominiumByID(@PathVariable long id){
 		
 		Condominium condominium = condominiumService.findByID(id)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 		
-		return condominium;
+		return condominiumMapper.condominiumToDto(condominium);
 		
 	}
 	
 	@PostMapping
-	public Condominium createCondominium(@RequestBody Condominium cond) {
+	public CondominiumDto createCondominium(@RequestBody CondominiumDto condDto) {
+		
+		Condominium cond = condominiumMapper.dtoToCondominium(condDto);
 		
 		Condominium condominium = condominiumService.save(cond);
-		return condominium;
+		
+		return condominiumMapper.condominiumToDto(condominium);
 		
 	}
 	
 	@PutMapping
-	public ResponseEntity<Condominium> modifyCondominium(@PathVariable long id, @RequestBody Condominium cond) {
+	public ResponseEntity<CondominiumDto> modifyCondominium(@PathVariable long id, @RequestBody CondominiumDto condDto) {
 		
+		Condominium cond = condominiumMapper.dtoToCondominium(condDto);
 		cond.setId(id);
 		
 		Condominium condominium = condominiumService.update(cond);
-		return ResponseEntity.ok(condominium);
+		
+		return ResponseEntity.ok(condominiumMapper.condominiumToDto(condominium));
 		
 	}
 	

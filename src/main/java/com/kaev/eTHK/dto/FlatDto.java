@@ -1,7 +1,5 @@
 package com.kaev.eTHK.dto;
 
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,14 +11,16 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CondominiumDto {
+public class FlatDto {
 
 	private long id;
 	
-	private List<FlatDto> flatDtos;
+	private CondominiumDto condominiumDto;
 	
-	private String name;
-	private String address;
-	private String taxnumber;
+	private String building;
+	private String staircase;
+	private String floor;
+	private String door;
+	
 	
 }

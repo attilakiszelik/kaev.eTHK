@@ -1,11 +1,10 @@
 package com.kaev.eTHK.model;
 
-import java.util.List;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -19,18 +18,20 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Condominium {
-	
+public class Flat {
+
 	@Id
 	@GeneratedValue
 	@EqualsAndHashCode.Include()
 	private long id;
 	
-	private String name;
-	private String address;
-	private String taxnumber;
+	@ManyToOne
+	@JoinColumn(name="condominium_id", nullable=false)
+	private Condominium condominium;
 	
-	@OneToMany(mappedBy="condominium")
-	private List<Flat> flats;
-
+	private String building;
+	private String staircase;
+	private String floor;
+	private String door;
+	
 }
